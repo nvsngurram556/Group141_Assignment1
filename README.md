@@ -48,3 +48,14 @@ git add data/raw/california_housing_raw.csv.dvc .gitignore
 git commit -m "add raw data"
 
 dvc push
+
+# Part 2: Model Development & Experiment Tracking
+# optional: set MLflow tracking uri to local server or leave default (mlruns)
+export MLFLOW_TRACKING_URI=file:./mlruns
+python src/models/train_model.py --data data/processed/california_housing_processed.csv --experiment-name california-housing --dt-max-depth 10
+
+mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns -p 5000
+# then open http://127.0.0.1:5000
+
+python src/models/select_and_register_model.py
+
