@@ -9,6 +9,5 @@ if __name__ == "__main__":
     df = pd.read_csv(IN)
     # example feature: rooms_per_household
     df["rooms_per_household"] = df["AveRooms"] / df["HouseAge"].replace(0,1)
-    # drop columns if you prefer
     df.to_csv(OUT / "california_housing_processed.csv", index=False)
     print("Processed ->", OUT / "california_housing_processed.csv")

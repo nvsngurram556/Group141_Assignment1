@@ -17,6 +17,8 @@ class HousingData(BaseModel):
     Latitude: float
     Longitude: float
     MedHouseVal: float
+
+    
 # Load the model
 model_path = "mlruns/518425936383115905/34a7276f614c4a7aa1d18fc6fb047ad9/artifacts/model/model.pkl"
 if not os.path.exists(model_path):
@@ -25,6 +27,8 @@ try:
     model = joblib.load(model_path)
 except Exception as e:
     raise RuntimeError(f"Model loading failed: {e}")
+
+
 
 @app.post("/predict")
 def predict(data: HousingData):
