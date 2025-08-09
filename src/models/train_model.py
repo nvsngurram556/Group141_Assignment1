@@ -17,6 +17,7 @@ def load_data(path: Path):
     y = df["MedHouseVal"].copy()
     return X, y
 
+
 def eval_and_log(y_true, y_pred, prefix=""):
     mse = mean_squared_error(y_true, y_pred)
     rmse = mse ** 0.5
@@ -46,6 +47,7 @@ def train_and_log(model, model_name):
         mlflow.sklearn.log_model(model, model_name)
 
         print(f"{model_name} → RMSE: {rmse:.4f}, R2: {r2:.4f}")
+
 
 def main(args):
     data_path = Path(args.data)

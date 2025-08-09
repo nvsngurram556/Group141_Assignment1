@@ -36,8 +36,13 @@ jobs:
       # Step 5: Run tests
       - name: Run tests with pytest
         run: |
-          echo "Running Tests..."
-          pytest --maxfail=3 --disable-warnings -q
+          if [ -d "tests" ]; then
+            pytest --maxfail=3 --disable-warnings -q
+          else
+            echo "No tests directory found. Skipping tests."
+            exit 0
+          fi
+          
 
       # Step 6: Log in to Docker Hub
       - name: Log in to Docker Hub

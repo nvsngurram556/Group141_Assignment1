@@ -8,7 +8,12 @@ def select_best_and_register(experiment_name: str, registry_name: str = "Housing
     if experiment is None:
         raise RuntimeError(f"Experiment {experiment_name} not found")
 
-    runs = client.search_runs(experiment_ids=[experiment.experiment_id], filter_string="", order_by=["metrics.rmse ASC"], max_results=10)
+    runs = client.search_runs(
+        experiment_ids=[experiment.experiment_id],
+        filter_string="",
+        order_by=["metrics.rmse ASC"],
+        max_results=10
+    )
     if not runs:
         raise RuntimeError("No runs found")
 
