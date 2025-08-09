@@ -77,3 +77,9 @@ follow below steps for creating and docker packing
 -d '{"MedInc": 8.3252, "HouseAge": 41.0, "AveRooms": 6.9841, "AveBedrms": 1.0238, "Population": 322.0, "AveOccup": 2.5556, "Latitude": 37.88, "Longitude": -122.23, "MedHouseVal": 69.3}'
 # output:
 {"prediction":4.214499999999999}%    
+
+
+# Part 4: 
+
+docker build -t nvsngurram/housing-app .
+docker run -d -p 8000:8000 nvsngurram/housing-app
