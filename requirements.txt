@@ -1,11 +1,10 @@
-scikit-learn>=1.2
-pandas>=1.5
 numpy
 dvc[s3]
 boto3
-mlflow
-fastapi
-uvicorn
 pydantic
 python-dotenv
-server
+mlflow==2.14.1
+scikit-learn==1.4.2
+pandas==2.2.2
+fastapi==0.111.0
+uvicorn==0.30.1
