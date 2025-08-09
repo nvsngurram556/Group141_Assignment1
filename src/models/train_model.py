@@ -54,6 +54,7 @@ def main(args):
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=args.test_size, random_state=args.random_seed
     )
+    print(X_train.columns)
 
     mlflow.set_experiment(args.experiment_name)
 
