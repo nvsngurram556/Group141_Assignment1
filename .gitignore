@@ -1,0 +1,23 @@
+# Byte-compiled
+__pycache__/
+*.py[cod]
+
+# DVC
+!*.dvc
+!/.dvc/
+
+# Data
+!data/
+
+# Python env
+.env
+venv/
+
+# MLflow artifacts
+mlruns/
+
+# Docker
+*.tar
+
+# OS files
+.DS_Store
