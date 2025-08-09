@@ -74,6 +74,6 @@ jobs:
 
           #For EC2 deployment
           echo "${{ secrets.EC2_KEY }}" > ec2_key.pem
-          chmod 777 ec2_key.pem
+          chmod 400 ec2_key.pem
           ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_HOST }} \
           "docker pull ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest && docker run -d -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest"
