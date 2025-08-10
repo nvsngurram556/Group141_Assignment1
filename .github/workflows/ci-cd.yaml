@@ -60,54 +60,54 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest
 
   deploy:
-  needs: lint-test-build
-  runs-on: ubuntu-latest
-  if: github.ref == 'refs/heads/main'
+    needs: lint-test-build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
-  steps:
-    - name: Validate required secrets
-      run: |
-        if [ -z "${{ secrets.EC2_HOST }}" ] || [ -z "${{ secrets.EC2_KEY }}" ]; then
-          echo "ERROR: EC2_HOST or EC2_KEY secret is missing!"
-          exit 1
-        fi
-
-    - name: Deploy to EC2
-      run: |
-        echo "Deploying..."
-
-        # Save PEM key
-        echo "${{ secrets.EC2_KEY }}" > ec2_key.pem
-        chmod 400 ec2_key.pem
-        ls -l ec2_key.pem
-
-        # SSH into EC2 and run commands
-        ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_HOST }} << 'EOF'
-          echo "Connected to EC2"
-
-          # Your deployment commands below
-          if ! command -v docker &> /dev/null; then
-            echo "Docker not found. Installing..."
-            # Detect OS and install Docker accordingly (example for Amazon Linux)
-            if [ -f /etc/amzn-release ]; then
-              sudo yum update -y
-              sudo amazon-linux-extras enable docker
-              sudo yum install -y docker
-            elif [ -f /etc/debian_version ]; then
-              sudo apt-get update -y
-              sudo apt-get install -y docker.io
-            fi
-            sudo systemctl start docker
-            sudo systemctl enable docker
-            sudo usermod -aG docker $USER
-            exit  # Exit to reload groups, second SSH session needed
+    steps:
+      - name: Validate required secrets
+        run: |
+          if [ -z "${{ secrets.EC2_HOST }}" ] || [ -z "${{ secrets.EC2_KEY }}" ]; then
+            echo "ERROR: EC2_HOST or EC2_KEY secret is missing!"
+            exit 1
           fi
-        EOF
 
-        # Second SSH session after Docker install/group changes
-        ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_HOST }} << 'EOF'
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest
-          docker stop housing-app || true
-          docker rm housing-app || true
-          docker run -d --name housing-app -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest
-        EOF
+      - name: Deploy to EC2
+        run: |
+          echo "Deploying..."
+
+          # Save PEM key
+          echo "${{ secrets.EC2_KEY }}" > ec2_key.pem
+          chmod 400 ec2_key.pem
+          ls -l ec2_key.pem
+
+          # SSH into EC2 and run commands
+          ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_HOST }} << 'EOF'
+            echo "Connected to EC2"
+
+            # Your deployment commands below
+            if ! command -v docker &> /dev/null; then
+              echo "Docker not found. Installing..."
+              # Detect OS and install Docker accordingly (example for Amazon Linux)
+              if [ -f /etc/amzn-release ]; then
+                sudo yum update -y
+                sudo amazon-linux-extras enable docker
+                sudo yum install -y docker
+              elif [ -f /etc/debian_version ]; then
+                sudo apt-get update -y
+                sudo apt-get install -y docker.io
+              fi
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker $USER
+              exit  # Exit to reload groups, second SSH session needed
+            fi
+          EOF
+
+          # Second SSH session after Docker install/group changes
+          ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_HOST }} << 'EOF'
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest
+            docker stop housing-app || true
+            docker rm housing-app || true
+            docker run -d --name housing-app -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest
+          EOF
