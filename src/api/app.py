@@ -92,11 +92,9 @@ async def retrain():
             check=True,
         )
         print(result.stdout)
-        
         # Reload the model (assuming you save the best model to a known path)
         global model
-        model = joblib.load("mlruns/518425936383115905/34a7276f614c4a7aa1d18fc6fb047ad9/artifacts/model/model.pkl")  # Update this path if needed
-        
+        model = joblib.load("mlruns/518425936383115905/34a7276f614c4a7aa1d18fc6fb047ad9/artifacts/model/model.pkl")
         logger.info("Model retrained and reloaded successfully.")
         return {"status": "Model retrained successfully"}
     except subprocess.CalledProcessError as e:
