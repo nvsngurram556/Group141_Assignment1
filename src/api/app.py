@@ -37,6 +37,7 @@ async def add_metrics(request: Request, call_next):
     REQUEST_LATENCY.labels(request.method, request.url.path).observe(duration)
     return response
 
+
 @app.get("/metrics")
 async def metrics():
     """
@@ -51,7 +52,6 @@ async def root():
     Root endpoint to check if the API is running.
     """
     return {"message": "Welcome to the California Housing Prediction API"}
-
     
 conn = sqlite3.connect("predictions.db")
 c = conn.cursor()
