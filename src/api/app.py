@@ -52,7 +52,7 @@ async def root():
     Root endpoint to check if the API is running.
     """
     return {"message": "Welcome to the California Housing Prediction API"}
-    
+
 conn = sqlite3.connect("predictions.db")
 c = conn.cursor()
 c.execute("""
