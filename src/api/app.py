@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
+from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+import time
 from prometheus_fastapi_instrumentator import Instrumentator
 import joblib
 import numpy as np
@@ -17,6 +19,40 @@ handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)
 logger.addHandler(handler)
 
 app = FastAPI()
+# Prometheus metrics
+REQUEST_COUNT = Counter(
+    "http_requests_total", "Total HTTP requests", ["method", "endpoint", "http_status"]
+)
+REQUEST_LATENCY = Histogram(
+    "http_request_duration_seconds", "Request latency in seconds", ["method", "endpoint"]
+)
+
+
+@app.middleware("http")
+async def add_metrics(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    duration = time.time() - start_time
+    REQUEST_COUNT.labels(request.method, request.url.path, response.status_code).inc()
+    REQUEST_LATENCY.labels(request.method, request.url.path).observe(duration)
+    return response
+
+@app.get("/metrics")
+async def metrics():
+    """
+    Endpoint to expose Prometheus metrics.
+    """
+    return generate_latest(), {"Content-Type": CONTENT_TYPE_LATEST}
+
+
+@app.get("/")
+async def root():
+    """
+    Root endpoint to check if the API is running.
+    """
+    return {"message": "Welcome to the California Housing Prediction API"}
+
+    
 conn = sqlite3.connect("predictions.db")
 c = conn.cursor()
 c.execute("""
