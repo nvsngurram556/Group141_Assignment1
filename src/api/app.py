@@ -65,8 +65,15 @@ async def predict(data: HousingData, request: Request):
                               data.AveBedrms, data.Population, data.AveOccup,
                               data.Latitude, data.Longitude, data.MedHouseVal]])
         prediction = model.predict(features)
-        c.execute("INSERT INTO prediction_logs (timestamp, client_ip, input_json, prediction) VALUES (datetime('now'), ?, ?, ?)",
-              (request.client.host, str(data.dict()), float(prediction[0])))
+        c.execute(
+            "INSERT INTO prediction_logs (timestamp, client_ip, input_json, prediction) "
+            "VALUES (datetime('now'), ?, ?, ?)",
+            (
+                request.client.host,
+                str(data.dict()),
+                float(prediction[0])
+            )
+        )
         conn.commit()
         logger.info(f"Prediction request from {request.client.host}: {features}")
         return {"prediction": float(prediction[0])}
@@ -78,7 +85,6 @@ async def predict(data: HousingData, request: Request):
 @app.post("/retrain")
 async def retrain():
     try:
-        # Run the train_model.py script as a subprocess
         result = subprocess.run(
             ["python", "src/models/train_model.py", "--experiment-name", "california-housing"],
             capture_output=True,
