@@ -45,7 +45,7 @@ follow below steps for creating and docker packing
 # ake sure mlflow ui is running on http://127.0.0.1:5000 and docker build should be build then follow below run command
 # Step 11: docker run -p 8000:8000 \
   -v $(pwd)/mlruns:/app/mlruns \
-  -e MODEL_URI="mlruns/518425936383115905/34a7276f614c4a7aa1d18fc6fb047ad9/artifacts/model" \
+  -e MODEL_URI="mlruns/518425936383115905/e13bdc8502204207b66156d781e358ca/artifacts/model" \
   housing-api
 
 # now we can run the prediction command by passing input with json and expect the output:

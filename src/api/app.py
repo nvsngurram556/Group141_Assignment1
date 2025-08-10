@@ -84,7 +84,7 @@ class HousingData(BaseModel):
 
 
 # Load the model
-model_path = "mlruns/518425936383115905/34a7276f614c4a7aa1d18fc6fb047ad9/artifacts/model/model.pkl"
+model_path = "mlruns/518425936383115905/e13bdc8502204207b66156d781e358ca/artifacts/model/model.pkl"
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Model file not found at {model_path}")
 try:
