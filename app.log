@@ -1,0 +1,64 @@
+2025-08-10 14:11:07,268 - INFO - Started server process [10069]
+2025-08-10 14:11:07,268 - INFO - Waiting for application startup.
+2025-08-10 14:11:07,268 - INFO - ASGI 'lifespan' protocol appears unsupported.
+2025-08-10 14:11:07,268 - INFO - Application startup complete.
+2025-08-10 14:11:07,274 - INFO - Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2025-08-10 14:11:13,885 - ERROR - Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/uvicorn/protocols/http/httptools_impl.py", line 426, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/fastapi/applications.py", line 1106, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/starlette/applications.py", line 112, in __call__
+    self.middleware_stack = self.build_middleware_stack()
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/fastapi/applications.py", line 1014, in build_middleware_stack
+    for cls, options in reversed(middleware):
+ValueError: too many values to unpack (expected 2)
+2025-08-10 14:11:14,758 - ERROR - Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/uvicorn/protocols/http/httptools_impl.py", line 426, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/fastapi/applications.py", line 1106, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/starlette/applications.py", line 112, in __call__
+    self.middleware_stack = self.build_middleware_stack()
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/fastapi/applications.py", line 1014, in build_middleware_stack
+    for cls, options in reversed(middleware):
+ValueError: too many values to unpack (expected 2)
+2025-08-10 14:11:21,513 - ERROR - Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/uvicorn/protocols/http/httptools_impl.py", line 426, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/fastapi/applications.py", line 1106, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/starlette/applications.py", line 112, in __call__
+    self.middleware_stack = self.build_middleware_stack()
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/fastapi/applications.py", line 1014, in build_middleware_stack
+    for cls, options in reversed(middleware):
+ValueError: too many values to unpack (expected 2)
+2025-08-10 14:11:24,499 - ERROR - Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/uvicorn/protocols/http/httptools_impl.py", line 426, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 84, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/fastapi/applications.py", line 1106, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/starlette/applications.py", line 112, in __call__
+    self.middleware_stack = self.build_middleware_stack()
+  File "/Users/nagavenkatasatyanarayanagurram/miniconda3/envs/mlops/lib/python3.10/site-packages/fastapi/applications.py", line 1014, in build_middleware_stack
+    for cls, options in reversed(middleware):
+ValueError: too many values to unpack (expected 2)
+2025-08-10 14:11:50,062 - INFO - Shutting down
+2025-08-10 14:11:50,166 - INFO - Finished server process [10069]
+2025-08-10 14:12:24,071 - INFO - Started server process [10242]
+2025-08-10 14:12:24,072 - INFO - Waiting for application startup.
+2025-08-10 14:12:24,072 - INFO - ASGI 'lifespan' protocol appears unsupported.
+2025-08-10 14:12:24,072 - INFO - Application startup complete.
+2025-08-10 14:12:24,079 - INFO - Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)

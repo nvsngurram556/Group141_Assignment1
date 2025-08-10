@@ -11,6 +11,8 @@ RUN pip install --upgrade pip setuptools wheel
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+COPY src ./src
+COPY data ./data
 COPY src/api ./src/api
 
 ENV MODEL_PATH=/app/models/best_model.pkl
