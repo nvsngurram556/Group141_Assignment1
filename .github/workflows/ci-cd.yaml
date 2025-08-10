@@ -73,7 +73,25 @@ jobs:
           docker run -d -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest
 
           #For EC2 deployment
+          # Save PEM key
           echo "${{ secrets.EC2_KEY }}" > ec2_key.pem
           chmod 400 ec2_key.pem
-          ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_HOST }} \
-          "docker pull ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest && docker run -d -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest"
+          # SSH into EC2, install Docker if missing, then run container
+          ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_HOST }} << 'EOF'
+            # Install Docker if not installed
+            if ! command -v docker &> /dev/null
+            then
+              echo "Docker not found. Installing..."
+              sudo apt-get update -y
+              sudo apt-get install -y docker.io
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker $USER
+            fi
+
+            # Pull and run the container
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest
+            docker stop housing-app || true
+            docker rm housing-app || true
+            docker run -d --name housing-app -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest
+          EOF
