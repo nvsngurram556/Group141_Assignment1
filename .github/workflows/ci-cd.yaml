@@ -77,39 +77,34 @@ jobs:
           echo "${{ secrets.EC2_KEY }}" > ec2_key.pem
           chmod 400 ec2_key.pem
           # SSH into EC2, install Docker if missing, then run container
-          # SSH into EC2 and install Docker based on OS type
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${{ secrets.EC2_HOST }} << 'EOF'
             if [ -f /etc/debian_version ]; then
               echo "Debian/Ubuntu detected. Installing Docker..."
               sudo apt-get update -y
               sudo apt-get install -y docker.io
-              sudo systemctl start docker
-              sudo systemctl enable docker
-              sudo usermod -aG docker $USER
 
-            elif [ -f /etc/amzn-release ]; then
-              if grep -q "Amazon Linux 2" /etc/system-release; then
-                echo "Amazon Linux 2 detected. Installing Docker..."
-                sudo yum update -y
-                sudo amazon-linux-extras enable docker
-                sudo yum install -y docker
-              else
-                echo "Amazon Linux 2023 detected. Installing Docker..."
-                sudo dnf update -y
-                sudo dnf install -y docker
-              fi
-              sudo systemctl start docker
-              sudo systemctl enable docker
-              sudo usermod -aG docker $USER
+            elif grep -q "Amazon Linux 2" /etc/system-release; then
+              echo "Amazon Linux 2 detected. Installing Docker..."
+              sudo yum update -y
+              sudo amazon-linux-extras enable docker
+              sudo yum install -y docker
+
+            elif grep -q "Amazon Linux 2023" /etc/system-release; then
+              echo "Amazon Linux 2023 detected. Installing Docker..."
+              sudo dnf update -y
+              sudo dnf install -y docker
 
             else
-              echo "Unsupported OS. Please install Docker manually."
+              echo "Unsupported OS: $(cat /etc/system-release)"
               exit 1
             fi
+
+            sudo systemctl start docker
+            sudo systemctl enable docker
+            sudo usermod -aG docker $USER
             exit
           EOF
 
-          # Second SSH session after group change
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${{ secrets.EC2_HOST }} << 'EOF'
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/housing-app:latest
             docker stop housing-app || true
